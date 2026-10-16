@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.1.12'
+    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Web 核心依赖
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Thymeleaf 页面模板引擎
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    // Lombok 简化实体类代码
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // MySQL 数据库驱动
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // MyBatis-Plus 持久层框架
+    implementation 'com.baomidou:mybatis-plus-boot-starter:3.5.5'
+
+    // SpringBoot 单元测试
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>图书查询</title>
+    <style>
+        body { margin: 20px; font-family: 微软雅黑; }
+        .top-bar { margin-bottom: 15px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #f5f5f5; }
+        .page-bar { margin-top: 15px; text-align: center; }
+    </style>
+</head>
+<body>
+<h3>图书查询（读者端）</h3>
+<div class="top-bar">
+    <a th:href="@{/reader/book}">图书查询</a>
+    <a th:href="@{/reader/borrow}" style="margin-left: 20px;">我的借阅</a>
+    <a th:href="@{/logout}" style="float: right;">退出登录</a>
+</div>
+
+<div class="top-bar">
+    <form method="get" th:action="@{/reader/book}" style="display: inline;">
+        书名搜索：<input type="text" name="keyword" th:value="${keyword}">
+        <button type="submit">查询</button>
+    </form>
+</div>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>书名</th>
+        <th>作者</th>
+        <th>出版社</th>
+        <th>价格</th>
+        <th>库存</th>
+        <th>馆藏位置</th>
+    </tr>
+    <tr th:each="book : ${page.records}">
+        <td th:text="${book.bookId}"></td>
+        <td th:text="${book.bookName}"></td>
+        <td th:text="${book.author}"></td>
+        <td th:text="${book.publisher}"></td>
+        <td th:text="${book.price}"></td>
+        <td th:text="${book.stock}"></td>
+        <td th:text="${book.location}"></td>
+    </tr>
+</table>
+
+<div class="page-bar">
+    <span>第 <span th:text="${page.current}"></span> 页 / 共 <span th:text="${page.pages}"></span> 页</span>
+    <a th:if="${page.current > 1}" th:href="@{/reader/book(pageNum=${page.current-1}, keyword=${keyword})}">上一页</a>
+    <a th:if="${page.current < page.pages}" th:href="@{/reader/book(pageNum=${page.current+1}, keyword=${keyword})}">下一页</a>
+</div>
+</body>
+</html>

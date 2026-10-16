@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>新增借书</title>
+    <style>
+        body { margin: 50px; }
+        .form-item { margin: 15px 0; }
+        label { display: inline-block; width: 100px; }
+    </style>
+</head>
+<body>
+<h3>新增借书登记</h3>
+<form method="post" th:action="@{/admin/borrow/save}">
+    <div class="form-item">
+        <label>选择读者：</label>
+        <select name="userId" required>
+            <option value="">请选择读者</option>
+            <option th:each="user : ${userList}"
+                    th:value="${user.userId}"
+                    th:text="${user.realName + ' (' + user.username + ')'}"></option>
+        </select>
+    </div>
+    <div class="form-item">
+        <label>选择图书：</label>
+        <select name="bookId" required>
+            <option value="">请选择图书</option>
+            <option th:each="book : ${bookList}"
+                    th:value="${book.bookId}"
+                    th:text="${book.bookName + ' (库存:' + book.stock + ')'}"></option>
+        </select>
+    </div>
+    <div class="form-item">
+        <label>借阅天数：</label>
+        <input type="number" name="days" value="30" min="1" required>
+    </div>
+    <button type="submit">确认借书</button>
+    <a th:href="@{/admin/borrow/list}" style="margin-left: 15px;">返回列表</a>
+</form>
+</body>
+</html>
