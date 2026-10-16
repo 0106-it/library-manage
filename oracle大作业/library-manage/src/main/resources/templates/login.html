@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>图书管理系统登录</title>
+</head>
+<body style="margin-top: 100px; text-align: center;">
+<h2>图书管理系统</h2>
+<!-- 错误提示 -->
+<div style="color: red;" th:text="${msg}"></div>
+
+<form method="post" th:action="@{/doLogin}">
+    <div style="margin: 10px;">
+        账号：<input type="text" name="username" required>
+    </div>
+    <div style="margin: 10px;">
+        密码：<input type="password" name="password" required>
+    </div>
+    <button type="submit">登录</button>
+</form>
+<p>测试账号：admin / 123456（管理员），reader01 / 123456（读者）</p>
+</body>
+</html>

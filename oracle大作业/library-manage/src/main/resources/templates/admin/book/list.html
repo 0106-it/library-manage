@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>图书管理</title>
+    <style>
+        body { margin: 20px; font-family: 微软雅黑; }
+        .top-bar { margin-bottom: 15px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #f5f5f5; }
+        .page-bar { margin-top: 15px; text-align: center; }
+        .btn { padding: 5px 12px; text-decoration: none; background: #007bff; color: white; border-radius: 3px; }
+        .btn-danger { background: #dc3545; }
+        .btn-green { background: #28a745; }
+    </style>
+</head>
+<body>
+<h3>图书信息管理</h3>
+<div class="top-bar">
+    <a th:href="@{/admin/book/list}" class="btn">图书管理</a>
+    <a th:href="@{/admin/borrow/list}" class="btn btn-green" style="margin-left: 10px;">借阅管理</a>
+
+    <form method="get" th:action="@{/admin/book/list}" style="display: inline; margin-left: 20px;">
+        书名搜索：<input type="text" name="keyword" th:value="${keyword}">
+        <button type="submit">查询</button>
+    </form>
+
+    <a th:href="@{/admin/book/add}" class="btn" style="margin-left: 20px;">新增图书</a>
+    <a th:href="@{/logout}" style="float: right;">退出登录</a>
+</div>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>书名</th>
+        <th>作者</th>
+        <th>出版社</th>
+        <th>价格</th>
+        <th>库存</th>
+        <th>馆藏位置</th>
+        <th>操作</th>
+    </tr>
+    <tr th:each="book : ${page.records}">
+        <td th:text="${book.bookId}"></td>
+        <td th:text="${book.bookName}"></td>
+        <td th:text="${book.author}"></td>
+        <td th:text="${book.publisher}"></td>
+        <td th:text="${book.price}"></td>
+        <td th:text="${book.stock}"></td>
+        <td th:text="${book.location}"></td>
+        <td>
+            <a th:href="@{/admin/book/add(id=${book.bookId})}">编辑</a>
+            <a th:href="@{/admin/book/delete(id=${book.bookId})}" class="btn-danger" onclick="return confirm('确定删除？')">删除</a>
+        </td>
+    </tr>
+</table>
+
+<div class="page-bar">
+    <span>第 <span th:text="${page.current}"></span> 页 / 共 <span th:text="${page.pages}"></span> 页</span>
+    <a th:if="${page.current > 1}" th:href="@{/admin/book/list(pageNum=${page.current-1}, keyword=${keyword})}">上一页</a>
+    <a th:if="${page.current < page.pages}" th:href="@{/admin/book/list(pageNum=${page.current+1}, keyword=${keyword})}">下一页</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>借阅记录管理</title>
+    <style>
+        body { margin: 20px; font-family: 微软雅黑; }
+        .top-bar { margin-bottom: 15px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #f5f5f5; }
+        .page-bar { margin-top: 15px; text-align: center; }
+        .btn { padding: 5px 12px; text-decoration: none; background: #007bff; color: white; border-radius: 3px; }
+        .btn-success { background: #28a745; }
+        .status-0 { color: #ff6600; font-weight: bold; }
+        .status-1 { color: #28a745; }
+    </style>
+</head>
+<body>
+<h3>借阅记录管理</h3>
+<div class="top-bar">
+    <a th:href="@{/admin/book/list}" class="btn">图书管理</a>
+    <a th:href="@{/admin/borrow/list}" class="btn btn-success" style="margin-left: 10px;">借阅管理</a>
+    <a th:href="@{/admin/borrow/add}" class="btn btn-success" style="margin-left: 10px;">新增借书</a>
+    <a th:href="@{/logout}" style="float: right;">退出登录</a>
+</div>
+
+<table>
+    <tr>
+        <th>借阅ID</th>
+        <th>用户ID</th>
+        <th>图书ID</th>
+        <th>借阅时间</th>
+        <th>应还时间</th>
+        <th>归还时间</th>
+        <th>状态</th>
+        <th>操作</th>
+    </tr>
+    <tr th:each="record : ${page.records}">
+        <td th:text="${record.borrowId}"></td>
+        <td th:text="${record.userId}"></td>
+        <td th:text="${record.bookId}"></td>
+        <td th:text="${record.borrowTime}"></td>
+        <td th:text="${record.dueTime}"></td>
+        <td th:text="${record.returnTime} ?: '未归还'"></td>
+        <td th:class="${record.status == 0} ? 'status-0' : 'status-1'"
+            th:text="${record.status == 0} ? '借阅中' : '已归还'"></td>
+        <td>
+            <a th:if="${record.status == 0}" th:href="@{/admin/borrow/return(id=${record.borrowId})}"
+               onclick="return confirm('确认归还？')">确认还书</a>
+            <span th:if="${record.status == 1}">已完成</span>
+        </td>
+    </tr>
+</table>
+
+<div class="page-bar">
+    <span>第 <span th:text="${page.current}"></span> 页 / 共 <span th:text="${page.pages}"></span> 页</span>
+    <a th:if="${page.current > 1}" th:href="@{/admin/borrow/list(pageNum=${page.current-1})}">上一页</a>
+    <a th:if="${page.current < page.pages}" th:href="@{/admin/borrow/list(pageNum=${page.current+1})}">下一页</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>图书管理</title>
+</head>
+<body>
+<h3>图书管理 - 管理员</h3>
+
+<!-- 搜索框 -->
+<form method="get" th:action="@{/admin/book/list}">
+    <input type="text" name="keyword" th:value="${keyword}" placeholder="输入书名搜索">
+    <button type="submit">搜索</button>
+    <a href="/admin/book/add">新增图书</a>
+</form>
+
+<!-- 图书表格 -->
+<table border="1" cellpadding="8" cellspacing="0">
+    <tr>
+        <th>ID</th><th>书名</th><th>作者</th><th>库存</th><th>操作</th>
+    </tr>
+    <tr th:each="book : ${page.records}">
+        <td th:text="${book.bookId}"></td>
+        <td th:text="${book.bookName}"></td>
+        <td th:text="${book.author}"></td>
+        <td th:text="${book.stock}"></td>
+        <td>
+            <a th:href="@{/admin/book/delete/{id}(id=${book.bookId})}">删除</a>
+        </td>
+    </tr>
+</table>
+
+<!-- 分页 -->
+<div>
+    第 <span th:text="${page.current}"></span> 页 / 共 <span th:text="${page.pages}"></span> 页
+    <a th:href="@{/admin/book/list(pageNum=1)}">首页</a>
+    <a th:href="@{/admin/book/list(pageNum=${page.current-1})}" th:if="${page.current > 1}">上一页</a>
+    <a th:href="@{/admin/book/list(pageNum=${page.current+1})}" th:if="${page.current < page.pages}">下一页</a>
+</div>
+</body>
+</html>

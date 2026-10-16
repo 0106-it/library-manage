@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>新增/编辑图书</title>
+    <style>
+        body { margin: 50px; }
+        .form-item { margin: 15px 0; }
+        label { display: inline-block; width: 80px; }
+    </style>
+</head>
+<body>
+<h3 th:text="${book.bookId == null} ? '新增图书' : '编辑图书'"></h3>
+<form method="post" th:action="@{/admin/book/save}" th:object="${book}">
+    <input type="hidden" th:field="*{bookId}">
+    <div class="form-item">
+        <label>书名：</label>
+        <input type="text" th:field="*{bookName}" required>
+    </div>
+    <div class="form-item">
+        <label>作者：</label>
+        <input type="text" th:field="*{author}" required>
+    </div>
+    <div class="form-item">
+        <label>分类ID：</label>
+        <input type="number" th:field="*{categoryId}" value="1">
+    </div>
+    <div class="form-item">
+        <label>出版社：</label>
+        <input type="text" th:field="*{publisher}">
+    </div>
+    <div class="form-item">
+        <label>价格：</label>
+        <input type="number" step="0.01" th:field="*{price}" required>
+    </div>
+    <div class="form-item">
+        <label>库存：</label>
+        <input type="number" th:field="*{stock}" required>
+    </div>
+    <div class="form-item">
+        <label>馆藏位置：</label>
+        <input type="text" th:field="*{location}">
+    </div>
+    <button type="submit">保存</button>
+    <a th:href="@{/admin/book/list}" style="margin-left: 15px;">返回列表</a>
+</form>
+</body>
+</html>
